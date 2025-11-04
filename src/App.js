@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Camera, Film, Image, Video, Download, AlertCircle } from 'lucide-react';
 import { Helmet } from 'react-helmet';
 
-const API_BASE_URL = 'http://localhost:3001/api';
+const API_BASE_URL = 'https://mediagrab-downloader.onrender.com';
 
 const TOOL_THEMES = {
   youtube: {
