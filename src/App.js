@@ -162,77 +162,119 @@ function App() {
   };
 
   const handleDownload = async () => {
-    if (!selectedFormat || !url) return;
-    setIsDownloading(true);
-    setDownloadProgress(0);
-    setDownloadStatus('Starting...');
-    setError(null);
+  if (!selectedFormat || !url) return;
+  setIsDownloading(true);
+  setDownloadProgress(0);
+  setDownloadStatus('Starting...');
+  setError(null);
+  
+  let eventSource = null;
+  
+  try {
+    const formatConfig = theme.formats.find(f => f.id === selectedFormat);
     
-    try {
-      const formatConfig = theme.formats.find(f => f.id === selectedFormat);
-      
-      const response = await fetch(`${API_BASE_URL}/download`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          url, 
-          platform: activeTool, 
-          format: formatConfig.format, 
-          formatId: selectedFormat 
-        })
-      });
+    const response = await fetch(`${API_BASE_URL}/download`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ 
+        url, 
+        platform: activeTool, 
+        format: formatConfig.format, 
+        formatId: selectedFormat 
+      })
+    });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Download failed');
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error || 'Download failed');
+    }
+
+    const { downloadId } = await response.json();
+    console.log('📥 Download ID:', downloadId);
+
+    eventSource = new EventSource(`${API_BASE_URL}/download-progress/${downloadId}`);
+    
+    eventSource.onmessage = (event) => {
+      const progress = JSON.parse(event.data);
+      console.log('📊 Progress update:', progress);
+      
+      if (progress.percent !== undefined) {
+        setDownloadProgress(Math.round(progress.percent));
       }
-
-      const { downloadId } = await response.json();
-      console.log('📥 Download ID:', downloadId);
-
-      const eventSource = new EventSource(`${API_BASE_URL}/download-progress/${downloadId}`);
       
-      eventSource.onmessage = (event) => {
-        const progress = JSON.parse(event.data);
+      if (progress.status === 'analyzing') {
+        setDownloadStatus('Analyzing media...');
+      } else if (progress.status === 'downloading') {
+        setDownloadStatus('Downloading...');
+      } else if (progress.status === 'processing') {
+        setDownloadStatus('Processing file...');
+      } else if (progress.status === 'complete') {
+        setDownloadStatus('Complete! Starting download...');
+        eventSource.close();
         
-        if (progress.percent !== undefined) {
-          setDownloadProgress(Math.round(progress.percent));
-        }
-        
-        if (progress.status === 'analyzing') {
-          setDownloadStatus('Analyzing media...');
-        } else if (progress.status === 'downloading') {
-          setDownloadStatus(`Downloading...`);
-        } else if (progress.status === 'processing') {
-          setDownloadStatus('Processing file...');
-        } else if (progress.status === 'complete') {
-          setDownloadStatus('Complete!');
-          eventSource.close();
+        // Wait a bit longer before attempting download
+        setTimeout(() => {
+          console.log('🔽 Attempting to download file...');
+          const downloadUrl = `${API_BASE_URL}/download-file/${downloadId}`;
           
-          setTimeout(() => {
-            const downloadUrl = `${API_BASE_URL}/download-file/${downloadId}`;
-            const a = document.createElement('a');
-            a.href = downloadUrl;
-            a.style.display = 'none';
-            document.body.appendChild(a);
-            a.click();
-            setTimeout(() => document.body.removeChild(a), 100);
-          }, 2000);
-          
-          showToast('Download completed!');
-          setTimeout(() => {
-            setIsDownloading(false);
-            setDownloadProgress(0);
-            setDownloadStatus('');
-          }, 2000);
-        }
-        
-        if (progress.status === 'error') {
-          eventSource.close();
-          setDownloadStatus('');
-          throw new Error(progress.error || 'Download failed');
-        }
-      };
+          // Use fetch to check if file is ready
+          fetch(downloadUrl, { method: 'HEAD' })
+            .then(response => {
+              if (response.ok) {
+                // File is ready, trigger download
+                const a = document.createElement('a');
+                a.href = downloadUrl;
+                a.style.display = 'none';
+                document.body.appendChild(a);
+                a.click();
+                setTimeout(() => document.body.removeChild(a), 100);
+                
+                showToast('Download completed!');
+              } else {
+                throw new Error('File not ready yet');
+              }
+            })
+            .catch(err => {
+              console.error('Download error:', err);
+              setError('File download failed. Please try again.');
+              showToast('Download failed', 'error');
+            })
+            .finally(() => {
+              setTimeout(() => {
+                setIsDownloading(false);
+                setDownloadProgress(0);
+                setDownloadStatus('');
+              }, 2000);
+            });
+        }, 1000); // Increased wait time
+      }
+      
+      if (progress.status === 'error') {
+        eventSource.close();
+        setDownloadStatus('');
+        throw new Error(progress.error || 'Download failed');
+      }
+    };
+    
+    eventSource.onerror = (error) => {
+      console.error('❌ SSE Error:', error);
+      if (eventSource) eventSource.close();
+      setError('Connection lost. Please try again.');
+      setDownloadStatus('');
+      setIsDownloading(false);
+      showToast('Connection error', 'error');
+    };
+    
+  } catch (err) {
+    console.error('❌ Error:', err);
+    if (eventSource) eventSource.close();
+    setError(err.message);
+    setDownloadStatus('');
+    showToast(err.message, 'error');
+    setIsDownloading(false);
+    setTimeout(() => setDownloadProgress(0), 2000);
+  }
+};
       
       eventSource.onerror = (error) => {
         console.error('❌ SSE Error:', error);
