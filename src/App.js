@@ -217,7 +217,7 @@ function App() {
             document.body.appendChild(a);
             a.click();
             setTimeout(() => document.body.removeChild(a), 100);
-          }, 500);
+          }, 2000);
           
           showToast('Download completed!');
           setTimeout(() => {
