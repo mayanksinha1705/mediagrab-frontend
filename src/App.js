@@ -6,7 +6,7 @@ const API_BASE_URL = 'https://mediagrab-downloader-1.onrender.com/api';
 
 const TOOL_THEMES = {
   youtube: {
-    primary: '#FF0000',
+    primary: '#FFF',
     gradient: 'from-red-600 to-red-700',
     icon: Film,
     name: 'YouTube',
