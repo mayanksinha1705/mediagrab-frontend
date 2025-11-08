@@ -17,7 +17,7 @@ const TOOL_THEMES = {
       { id: '720p', label: '720p MP4', format: 'bestvideo[height<=720][ext=mp4]+bestaudio[ext=m4a]' },
       { id: 'audio', label: 'Audio Only (MP3)', format: 'bestaudio' }
     ],
-    description: 'Download YouTube videos in HD quality - 1080p, 720p, 480p or extract MP3 audio. Free YouTube video downloader with no ads.Sorry, but due to YouTubes automated server IP blocking, the video download feature for YouTube is currently unavailable while we implement an advanced authentication bypass. 🛠️',
+    description: 'Download YouTube videos in HD quality - 1080p, 720p, 480p or extract MP3 audio. Free YouTube video downloader with no ads. **Sorry, but due to YouTubes automated server IP blocking, the video download feature for YouTube is currently unavailable while we implement an advanced authentication bypass. 🛠️**',
     keywords: 'youtube downloader, youtube video download, download youtube, youtube to mp4, youtube to mp3, free youtube downloader'
   },
   tiktok: {
