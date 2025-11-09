@@ -267,7 +267,7 @@ function App() {
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    "name": `MediaGrab - ${theme.name} Video Downloader`,
+    "name": `GrabifyX - ${theme.name} Video Downloader`,
     "description": theme.description,
     "url": window.location.href,
     "applicationCategory": "MultimediaApplication",
@@ -321,7 +321,7 @@ function App() {
                 <div className={`w-8 h-8 bg-gradient-to-r ${theme.gradient} rounded-lg flex items-center justify-center`}>
                   <Download className="w-5 h-5 text-white" />
                 </div>
-                <h1 className="text-xl font-bold text-gray-900">MediaGrab</h1>
+                <h1 className="text-xl font-bold text-gray-900">GrabifyX</h1>
               </div>
               <div className="hidden md:flex items-center space-x-6">
                 <a href="#/" className="text-gray-700 hover:text-gray-900">Home</a>
@@ -501,7 +501,7 @@ function App() {
             </ol>
 
             <h3 className="text-xl font-bold text-gray-900 mt-8 mb-4">
-              Features of MediaGrab {theme.name} Downloader
+              Features of GrabifyX {theme.name} Downloader
             </h3>
             <ul className="list-disc list-inside space-y-2 text-gray-700">
               <li>✅ 100% Free - No registration required</li>
@@ -564,7 +564,7 @@ function App() {
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" onClick={()=>setShowModal(null)} role="dialog" aria-modal="true">
             <div className="bg-white rounded-xl max-w-2xl w-full p-6 max-h-[80vh] overflow-y-auto" onClick={(e)=>e.stopPropagation()}>
               <h2 className="text-2xl font-bold mb-4">
-                {showModal === 'about' ? 'About MediaGrab' : 'How It Works'}
+                {showModal === 'about' ? 'About GrabifyX' : 'How It Works'}
               </h2>
               {showModal === 'about' ? (
                 <div className="space-y-3 text-gray-700">
@@ -574,7 +574,7 @@ function App() {
                 </div>
               ) : (
                 <div className="space-y-4 text-gray-700">
-                  <p> MediaGrab makes downloading videossimple and fast:</p>
+                  <p> GrabifyX makes downloading videossimple and fast:</p>
                   <ol className="list-decimal list-inside space-y-2">
                     <li><strong>Copy URL:</strong> Go to YouTube, TikTok, Instagram, or Pinterest and copy the video URL</li>
                     <li><strong>Paste URL:</strong> Paste it into our downloader</li>
