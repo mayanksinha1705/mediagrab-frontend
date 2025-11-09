@@ -519,7 +519,7 @@ function App() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <div className="grid md:grid-cols-4 gap-8">
               <div>
-                <h3 className="text-white font-semibold mb-3">MediaGrab</h3>
+                <h3 className="text-white font-semibold mb-3">GrabifyX</h3>
                 <p className="text-sm">Free video downloader for YouTube, TikTok, Instagram, and Pinterest. Download videos in HD quality.</p>
               </div>
               <div>
@@ -546,7 +546,7 @@ function App() {
               </div>
             </div>
             <div className="border-t border-gray-800 mt-8 pt-6 text-center text-sm">
-              <p>© 2025 MediaGrab - Free Video Downloader. Powered by yt-dlp.</p>
+              <p>© 2025 GrabifyX - Free Video Downloader. Powered by yt-dlp.</p>
             </div>
           </div>
         </footer>
@@ -568,7 +568,7 @@ function App() {
               </h2>
               {showModal === 'about' ? (
                 <div className="space-y-3 text-gray-700">
-                  <p>MediaGrab is a free, fast, and secure video downloader supporting multiple platforms including YouTube, TikTok, Instagram, and Pinterest.</p>
+                  <p>GrabifyX is a free, fast, and secure video downloader supporting multiple platforms including YouTube, TikTok, Instagram, and Pinterest.</p>
                   <p>Our tool uses advanced technology to provide high-quality downloads without watermarks or ads.</p>
                   <p className="text-sm text-red-600 font-semibold">⚠️ Legal Notice: Always respect copyright laws and platform terms of service. Only download content you have rights to use.</p>
                 </div>
