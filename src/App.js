@@ -101,7 +101,7 @@ function App() {
     const patterns = {
       youtube: /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+/,
       tiktok: /^(https?:\/\/)?(www\.)?(tiktok\.com|vm\.tiktok\.com)\/.+/,
-      pinterest: /^(https?:\/\/)?(www\.)?pinterest\.(com|ca|co\.uk)\/.+/,
+      pinterest: /^(https?:\/\/)?(www\.|in\.)?pinterest\.(com|ca|co\.uk)\/.+/,
       instagram: /^(https?:\/\/)?(www\.|in\.)?instagram\.com\/(p|reel|reels|tv)\/[\w-]+/
     };
     return patterns[activeTool]?.test(inputUrl) || false;
